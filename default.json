@@ -8,6 +8,9 @@
         "typescript",
         "@typescript/native-preview",
         "ultracite",
+        "@oisin-ee/oxlint-config",
+        "@oisin-ee/momokaya-contract",
+        "@oisin-ee/momokaya-agent-auth",
         "oxlint",
         "oxfmt",
         "oxlint-tsgolint"

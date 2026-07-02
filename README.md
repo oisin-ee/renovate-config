@@ -12,6 +12,9 @@ stack, at the same pinned versions — without hand-syncing `package.json` acros
 | `@typescript/native-preview` | TypeScript 7 native compiler (tsgo) |
 | `typescript` | JS `tsc` (RC) — kept alongside tsgo during the preview |
 | `ultracite` | zero-config linter/formatter presets driving oxlint + oxfmt |
+| `@oisin-ee/oxlint-config` | shared strict type-aware oxlint preset layered on ultracite |
+| `@oisin-ee/momokaya-contract` | versioned Momokaya environment/runtime contract |
+| `@oisin-ee/momokaya-agent-auth` | Momokaya agent-auth credential broker integration |
 | `oxlint` | linter |
 | `oxfmt` | formatter |
 | `oxlint-tsgolint` | type-aware oxlint plugin |
@@ -19,7 +22,7 @@ stack, at the same pinned versions — without hand-syncing `package.json` acros
 ## What the preset does
 
 - **Pins exact versions** (`rangeStrategy: pin`) — no floating `^` or `rc` tag drift.
-- **Groups the whole toolchain into one PR** (`groupName: oisin-ee toolchain`) so the six
+- **Groups the whole toolchain into one PR** (`groupName: oisin-ee toolchain`) so the nine
   packages always move in lockstep; a repo is never half-upgraded.
 - **Allows prerelease bumps** for the pre-stable members (`typescript` rc, tsgo dev builds,
   `oxfmt` beta) so the group can track the preview forward and flip to GA when it lands.
