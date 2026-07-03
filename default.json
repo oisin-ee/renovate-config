@@ -3,7 +3,7 @@
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
   "packageRules": [
     {
-      "description": "oisin-ee shared TS7 + ultracite/oxc toolchain — pin exact and bump the whole set in one lockstep PR so every repo stays on identical versions",
+      "description": "oisin-ee shared TS7 + ultracite/oxc toolchain — pin exact versions and open a bump PR for each package as it publishes (no weekly lockstep batch)",
       "matchPackageNames": [
         "typescript",
         "@typescript/native-preview",
@@ -15,9 +15,7 @@
         "oxfmt",
         "oxlint-tsgolint"
       ],
-      "groupName": "oisin-ee toolchain",
-      "rangeStrategy": "pin",
-      "schedule": ["before 6am on monday"]
+      "rangeStrategy": "pin"
     },
     {
       "description": "The TS7 preview (typescript rc + tsgo native-preview) and oxfmt are pre-stable; allow Renovate to offer prerelease/dev bumps for them instead of pinning to a stale stable tag",
