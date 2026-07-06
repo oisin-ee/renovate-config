@@ -18,6 +18,19 @@
       "rangeStrategy": "pin"
     },
     {
+      "description": "Resolve private oisin-ee packages from GitHub tags instead of the npm registry",
+      "matchDatasources": ["npm"],
+      "matchPackageNames": [
+        "@oisin-ee/oxlint-config",
+        "@oisin-ee/momokaya-contract",
+        "@oisin-ee/momokaya-agent-auth"
+      ],
+      "overrideDatasource": "github-tags",
+      "overridePackageName": "{{replace '@' '' packageName}}",
+      "extractVersion": "^v(?<version>.*)$",
+      "versioning": "npm"
+    },
+    {
       "description": "The TS7 preview (typescript rc + tsgo native-preview) and oxfmt are pre-stable; allow Renovate to offer prerelease/dev bumps for them instead of pinning to a stale stable tag",
       "matchPackageNames": ["typescript", "@typescript/native-preview", "oxfmt"],
       "ignoreUnstable": false,

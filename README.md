@@ -2,8 +2,8 @@
 
 Shared [Renovate](https://docs.renovatebot.com/) preset for every oisin-ee TypeScript repo.
 
-It exists so all repos stay on **one identical toolchain** — the same TS7 + ultracite/oxc
-stack, at the same pinned versions — without hand-syncing `package.json` across repos.
+It exists so all repos use the same dependency update policy for the TS7 + ultracite/oxc stack,
+without hand-syncing `package.json` across repos.
 
 ## The standardized stack
 
@@ -22,11 +22,12 @@ stack, at the same pinned versions — without hand-syncing `package.json` acros
 ## What the preset does
 
 - **Pins exact versions** (`rangeStrategy: pin`) — no floating `^` or `rc` tag drift.
-- **Groups the whole toolchain into one PR** (`groupName: oisin-ee toolchain`) so the nine
-  packages always move in lockstep; a repo is never half-upgraded.
+- **Opens per-package bump PRs as packages publish** so a single stalled toolchain package does not
+  block unrelated updates.
+- **Resolves private `@oisin-ee/*` packages from GitHub tags** (`github-tags`) instead of the npm
+  registry; the repos publish version tags like `v1.3.3`, which Renovate normalizes to `1.3.3`.
 - **Allows prerelease bumps** for the pre-stable members (`typescript` rc, tsgo dev builds,
   `oxfmt` beta) so the group can track the preview forward and flip to GA when it lands.
-- Runs on a weekly schedule (`before 6am on monday`).
 
 ## Usage
 
