@@ -1,7 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "copier": {
+    "enabled": true
+  },
   "packageRules": [
+    {
+      "description": "Copier template updates (e.g. momokaya-template) must never automerge — a Copier update can leave unresolved <<<<<<< conflict markers in files (see README), and only a human reviewing the PR diff catches that",
+      "matchManagers": ["copier"],
+      "automerge": false
+    },
+    {
+      "description": "Copier stores its `gh:`/`gl:` template-source shorthand verbatim in `_src_path`, but Renovate's git-tags datasource passes packageName straight to `git ls-remote` without expanding it the way Copier itself does — rewrite to the real clone URL so the datasource can resolve tags",
+      "matchManagers": ["copier"],
+      "matchPackageNames": ["/^gh:/"],
+      "overridePackageName": "{{replace '^gh:' 'https://github.com/' packageName}}"
+    },
     {
       "description": "oisin-ee shared TS7 + ultracite/oxc toolchain — pin exact versions and open a bump PR for each package as it publishes (no weekly lockstep batch)",
       "matchPackageNames": [
