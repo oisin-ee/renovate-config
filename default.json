@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "ignorePresets": ["group:reactMonorepo"],
   "copier": {
     "enabled": true
   },
@@ -49,6 +50,34 @@
       "matchPackageNames": ["typescript", "@typescript/native-preview", "oxfmt"],
       "ignoreUnstable": false,
       "respectLatest": false
+    },
+    {
+      "description": "React family (react, react-dom, react-native) must move together across the fleet — one grouped, pinned PR instead of three independent bumps that can drift out of lockstep. separateMajorMinor:false is required here: that option has priority over packageRule groups (Renovate would otherwise split a major bump into its own PR even inside a group), and a split defeats the fleet-lockstep goal",
+      "matchPackageNames": ["react", "react-dom", "react-native"],
+      "groupName": "react",
+      "rangeStrategy": "pin",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Effect ecosystem (effect core + every @effect/* subpackage) is fleet-locked as one grouped, pinned PR — separateMajorMinor:false so the group doesn't split into its own major-only PR. ignoreUnstable/respectLatest are opened so the group can pick up Effect's prerelease line the moment a subpackage starts publishing one — checked against the npm registry on 2026-07-08, only the `effect` package itself currently publishes prerelease versions",
+      "matchPackageNames": ["effect", "/^@effect//"],
+      "groupName": "effect",
+      "rangeStrategy": "pin",
+      "separateMajorMinor": false,
+      "ignoreUnstable": false,
+      "respectLatest": false
+    },
+    {
+      "description": "effect core publishes an explicit npm dist-tag `beta` for the Effect 4 prerelease line (confirmed via the npm registry: dist-tags.beta = 4.0.0-beta.93 vs dist-tags.latest = 3.x) — follow it directly so the group tracks the beta channel instead of falling back to the stable `latest` tag. Scoped to `effect` only: the `@effect/*` subpackages do not carry a `beta` dist-tag yet (verified: zero beta versions published for @effect/platform), and followTag on a package with no matching tag stops all updates for it, not just prerelease ones",
+      "matchPackageNames": ["effect"],
+      "followTag": "beta"
+    },
+    {
+      "description": "Go toolchain — the `go` directive and `toolchain` directive in go.mod both resolve through the golang-version datasource; group them into one PR so the fleet's Go version moves together, with separateMajorMinor:false so a Go major bump can't split off into its own PR. No rangeStrategy is set here: go.mod directives are single exact-version strings with no semver range to pin, so a rangeStrategy would be a no-op",
+      "matchManagers": ["gomod"],
+      "matchDatasources": ["golang-version"],
+      "groupName": "go toolchain",
+      "separateMajorMinor": false
     }
   ]
 }

@@ -29,6 +29,29 @@ without hand-syncing `package.json` across repos.
 - **Allows prerelease bumps** for the pre-stable members (`typescript` rc, tsgo dev builds,
   `oxfmt` beta) so the group can track the preview forward and flip to GA when it lands.
 
+## Per-tech-lane version groups
+
+Renovate is the L1 fleet-lock **courier**: it proposes a single grouped, pinned PR per tech lane so
+every consuming repo moves the same dependency family to the same version together (the actual lock
+is each repo's own catalog + `mise`). Each group sets `separateMajorMinor: false` — that option has
+priority over `packageRules` groups, so without it Renovate would still split a major bump into its
+own PR even inside a group, defeating the point of a single grouped bump.
+
+- **React** (`react`, `react-dom`, `react-native`) — grouped and pinned into one `react` PR.
+  Renovate's built-in `group:reactMonorepo` preset (from `config:recommended`'s `group:monorepos`)
+  would otherwise silently pull `react`/`react-dom` (they share the `facebook/react` `sourceUrl`)
+  into its own `"react monorepo"` group ahead of ours — top-level `ignorePresets` disables just that
+  one preset so our grouping wins for the whole family, including `react-native`.
+- **Effect** (`effect` + every `@effect/*` subpackage) — grouped and pinned into one `effect` PR,
+  with `ignoreUnstable: false` / `respectLatest: false` opened so the group can follow Effect's
+  prerelease line. `effect` core additionally sets `followTag: "beta"` because it publishes an
+  explicit `beta` npm dist-tag for the Effect 4 line; the `@effect/*` subpackages don't carry that
+  tag yet (verified against the npm registry), so `followTag` stays scoped to `effect` only —
+  setting it on a package with no matching tag stops all updates for that package, not just
+  prerelease ones.
+- **Go toolchain** (`go.mod`'s `go` and `toolchain` directives, both under the `golang-version`
+  datasource) — grouped into one `go toolchain` PR.
+
 ## Copier template updates
 
 The preset enables Renovate's built-in [`copier` manager](https://docs.renovatebot.com/modules/manager/copier/).
