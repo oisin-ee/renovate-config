@@ -112,3 +112,5 @@ credential. In <https://developer.mend.io>, add a plaintext organization secret 
 `GHCR_TOKEN` containing a classic GitHub personal access token owned by `oisin-bot` with only the
 `read:packages` scope. The preset supplies that secret to `ghcr.io` as Docker registry credentials;
 repository configs must not duplicate the host rule or commit the token.
+Run `bash scripts/setup-mend-ghcr-token.sh` on macOS to open the required GitHub and Mend pages in
+the default personal browser with the exact setup steps printed in the terminal.
