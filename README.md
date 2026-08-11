@@ -24,6 +24,10 @@ without hand-syncing `package.json` across repos.
 - **Pins exact versions** (`rangeStrategy: pin`) — no floating `^` or `rc` tag drift.
 - **Opens per-package bump PRs as packages publish** so a single stalled toolchain package does not
   block unrelated updates.
+- **Automerges dependency PRs only after their status checks pass.** Renovate performs the merge
+  itself instead of delegating to platform-native auto-merge, so a consuming repository cannot
+  merge before its tests report green because required-check branch protection was omitted or
+  misconfigured. Copier updates remain a deliberate exception and always require human review.
 - **Resolves private `@oisin-ee/*` packages from GitHub tags** (`github-tags`) instead of the npm
   registry; the repos publish version tags like `v1.3.3`, which Renovate normalizes to `1.3.3`.
 - **Allows prerelease bumps** for the pre-stable members (`typescript` rc, tsgo dev builds,

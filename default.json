@@ -2,6 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
   "ignorePresets": ["group:reactMonorepo"],
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": false,
   "copier": {
     "enabled": true
   },
