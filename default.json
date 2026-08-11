@@ -5,6 +5,14 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": false,
+  "hostRules": [
+    {
+      "matchHost": "ghcr.io",
+      "hostType": "docker",
+      "username": "oisin-bot",
+      "password": "{{ secrets.GHCR_TOKEN }}"
+    }
+  ],
   "copier": {
     "enabled": true
   },

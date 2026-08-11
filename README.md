@@ -106,3 +106,9 @@ Renovate resolves `github>oisin-ee/renovate-config` to this repo's root `default
 The **Renovate GitHub App** must be installed on the `oisin-ee` org (or self-hosted Renovate
 pointed at it) for any of this to run. Installing the app is a one-time org-admin action:
 <https://github.com/apps/renovate>.
+
+Private `ghcr.io/oisin-ee/*` images and OCI Helm charts also require an organization-level Mend
+credential. In <https://developer.mend.io>, add a plaintext organization secret named
+`GHCR_TOKEN` containing a classic GitHub personal access token owned by `oisin-bot` with only the
+`read:packages` scope. The preset supplies that secret to `ghcr.io` as Docker registry credentials;
+repository configs must not duplicate the host rule or commit the token.
