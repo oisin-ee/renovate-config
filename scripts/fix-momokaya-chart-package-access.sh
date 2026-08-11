@@ -12,11 +12,13 @@ printf '%s\n' \
   'Opening the momokaya-chart GHCR package settings in your default personal browser.' \
   '' \
   'In GitHub:' \
-  '  1. Under Repository source, connect the package to oisin-ee/momokaya-chart.' \
-  '  2. Under Manage access, enable "Inherit access from repository".' \
-  '  3. Confirm that the package remains Private.' \
+  '  1. Under Manage Actions access, choose Add Repository and add momokaya-chart.' \
+  '  2. Under Manage access, choose Invite teams or people and add oisin-bot.' \
+  '  3. Set oisin-bot to the Read role.' \
+  '  4. Leave Codespaces access and package visibility unchanged.' \
   '' \
-  'This grants oisin-bot package read access through its existing repository permission.' \
-  'Return to the agent after GitHub confirms the changes.'
+  'The first step restores the publisher workflow access that was removed.' \
+  'The second and third steps directly grant the Mend credential owner package read access.' \
+  'Return to the agent after GitHub confirms both changes.'
 
 open "$package_settings_url"
