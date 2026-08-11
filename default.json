@@ -81,6 +81,12 @@
       "matchDatasources": ["golang-version"],
       "groupName": "go toolchain",
       "separateMajorMinor": false
+    },
+    {
+      "description": "Nub bootstrap pins move as one grouped PR per repo: the mise tool pin (npm:@nubjs/nub, native mise manager) and the official Docker image (ghcr.io/nubjs/nub, native Dockerfile manager). The authoritative version is package.json#packageManager, advanced with `nub pm update`; Nub's install-verb self-pin handoff makes bootstrap drift harmless in the interim",
+      "matchPackageNames": ["@nubjs/nub", "ghcr.io/nubjs/nub"],
+      "groupName": "nub",
+      "separateMajorMinor": false
     }
   ]
 }
