@@ -1,0 +1,8 @@
+version: 1
+commands:
+  setup:
+    - ["docker", "image", "pull", "renovate/renovate@sha256:eca4654d90229b8a87323c9a13154d8a0f3b0d398b9b7da036fef662601eaff2"]
+  verify:
+    - ["docker", "run", "--rm", "--network", "none", "-v", ".:/usr/src/app:ro", "-w", "/usr/src/app", "renovate/renovate@sha256:eca4654d90229b8a87323c9a13154d8a0f3b0d398b9b7da036fef662601eaff2", "renovate-config-validator", "--no-global", "--strict", "default.json"]
+  teardown:
+    - ["true"]
