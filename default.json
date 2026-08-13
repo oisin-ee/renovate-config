@@ -6,6 +6,7 @@
   "automergeType": "pr",
   "platformAutomerge": false,
   "prConcurrentLimit": 4,
+  "branchConcurrentLimit": 4,
   "commitHourlyLimit": 2,
   "timezone": "Europe/Tallinn",
   "hostRules": [
