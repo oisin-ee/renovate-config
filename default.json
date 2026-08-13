@@ -5,6 +5,8 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": false,
+  "prConcurrentLimit": 4,
+  "commitHourlyLimit": 2,
   "hostRules": [
     {
       "matchHost": "ghcr.io",
@@ -18,6 +20,69 @@
   },
   "packageRules": [
     {
+      "description": "Batch every ordinary non-major dependency update into one weekly PR by default. More specific technology-lane rules below override the group name while inheriting the same weekly schedule. Security alerts bypass schedules and limits; majors do not match this rule and remain separate",
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "weekly non-major dependencies",
+      "groupSingleUpdates": true,
+      "schedule": ["before 9am on monday"],
+      "updateNotScheduled": false
+    },
+    {
+      "description": "TypeScript and OXC-family tooling moves in one weekly non-major PR instead of independent compiler, linter, and formatter PRs",
+      "matchPackageNames": [
+        "typescript",
+        "@typescript/native-preview",
+        "ultracite",
+        "@oisin-ee/oxlint-config",
+        "oxlint",
+        "oxfmt",
+        "oxlint-tsgolint"
+      ],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "typescript and oxc tooling"
+    },
+    {
+      "description": "GitHub Actions digest, patch, and minor updates move together in one weekly PR; breaking major action upgrades remain separate",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "github actions"
+    },
+    {
+      "description": "Node container image digest, patch, and minor updates move together in one weekly runtime PR",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "node container images"
+    },
+    {
+      "description": "Python and uv container image digest, patch, and minor updates move together in one weekly runtime PR",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["python", "ghcr.io/astral-sh/uv"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "python container images"
+    },
+    {
+      "description": "Go container image digest, patch, and minor updates move together in one weekly runtime PR",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["golang"],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "go container images"
+    },
+    {
+      "description": "General Linux and distroless base-image digest, patch, and minor updates move together in one weekly PR",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "alpine",
+        "busybox",
+        "debian",
+        "ubuntu",
+        "/^gcr\\.io\/distroless\//",
+        "/^cgr\\.dev\/chainguard\//"
+      ],
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
+      "groupName": "base container images"
+    },
+    {
       "description": "Copier template updates (e.g. momokaya-template) must never automerge — a Copier update can leave unresolved <<<<<<< conflict markers in files (see README), and only a human reviewing the PR diff catches that",
       "matchManagers": ["copier"],
       "automerge": false
@@ -29,7 +94,7 @@
       "overridePackageName": "{{replace '^gh:' 'https://github.com/' packageName}}"
     },
     {
-      "description": "oisin-ee shared TS7 + ultracite/oxc toolchain — pin exact versions and open a bump PR for each package as it publishes (no weekly lockstep batch)",
+      "description": "Pin exact versions for the shared TS7, OXC, and first-party package set. Non-major TypeScript/OXC tooling updates are grouped weekly above; first-party runtime and contract packages use the general weekly non-major group",
       "matchPackageNames": [
         "typescript",
         "@typescript/native-preview",

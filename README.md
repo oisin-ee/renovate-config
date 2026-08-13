@@ -21,9 +21,14 @@ without hand-syncing `package.json` across repos.
 
 ## What the preset does
 
-- **Pins exact versions** (`rangeStrategy: pin`) — no floating `^` or `rc` tag drift.
-- **Opens per-package bump PRs as packages publish** so a single stalled toolchain package does not
-  block unrelated updates.
+- **Limits ordinary Renovate work per repository** to four concurrent PRs/branches and at most two
+  Renovate branch pushes per hour. Security alerts deliberately bypass these limits.
+- **Batches ordinary pin, digest, patch, and minor updates weekly** before 09:00 on Monday. General
+  updates share one PR; TypeScript/OXC tooling, GitHub Actions, and Node/Python/Go/base container
+  images use narrower groups so unrelated failure domains do not block each other. Major updates
+  and vulnerability fixes stay separate.
+- **Pins exact versions** (`rangeStrategy: pin`) for the standardized toolchain and first-party
+  package set — no floating `^` or `rc` tag drift.
 - **Automerges dependency PRs only after their status checks pass.** Renovate performs the merge
   itself instead of delegating to platform-native auto-merge, so a consuming repository cannot
   merge before its tests report green because required-check branch protection was omitted or
@@ -33,13 +38,18 @@ without hand-syncing `package.json` across repos.
 - **Allows prerelease bumps** for the pre-stable members (`typescript` rc, tsgo dev builds,
   `oxfmt` beta) so the group can track the preview forward and flip to GA when it lands.
 
-## Per-tech-lane version groups
+## Weekly groups and fleet-lock lanes
 
-Renovate is the L1 fleet-lock **courier**: it proposes a single grouped, pinned PR per tech lane so
-every consuming repo moves the same dependency family to the same version together (the actual lock
-is each repo's own catalog + `mise`). Each group sets `separateMajorMinor: false` — that option has
-priority over `packageRules` groups, so without it Renovate would still split a major bump into its
-own PR even inside a group, defeating the point of a single grouped bump.
+Ordinary non-major updates are created only in the weekly Monday window. The default group catches
+everything not assigned to a narrower failure domain. TypeScript/OXC tooling, GitHub Actions, and
+container images grouped by runtime get their own weekly PRs. Security updates bypass the schedule;
+breaking majors remain separate.
+
+Renovate is also the L1 fleet-lock **courier** for dependency families that must move together. It
+proposes one grouped, pinned PR per tech lane so every consuming repo moves the same dependency
+family to the same version together (the actual lock is each repo's own catalog + `mise`). Each
+fleet-lock group sets `separateMajorMinor: false` — that option has priority over `packageRules`
+groups, so without it Renovate would split a major bump into its own PR and defeat the lockstep.
 
 - **React** (`react`, `react-dom`, `react-native`) — grouped and pinned into one `react` PR.
   Renovate's built-in `group:reactMonorepo` preset (from `config:recommended`'s `group:monorepos`)
