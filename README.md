@@ -23,10 +23,10 @@ without hand-syncing `package.json` across repos.
 
 - **Limits ordinary Renovate work per repository** to four concurrent PRs/branches and at most two
   Renovate branch pushes per hour. Security alerts deliberately bypass these limits.
-- **Batches ordinary pin, digest, patch, and minor updates weekly** before 09:00 on Monday. General
-  updates share one PR; TypeScript/OXC tooling, GitHub Actions, and Node/Python/Go/base container
-  images use narrower groups so unrelated failure domains do not block each other. Major updates
-  and vulnerability fixes stay separate.
+- **Batches ordinary pin, digest, patch, and minor updates weekly** in staggered four-hour Monday
+  windows evaluated in `Europe/Tallinn`. General updates share one PR; TypeScript/OXC tooling,
+  GitHub Actions, and Node/Python/Go/base container images use narrower groups so unrelated failure
+  domains do not block each other. Major updates and vulnerability fixes stay separate.
 - **Pins exact versions** (`rangeStrategy: pin`) for the standardized toolchain and first-party
   package set — no floating `^` or `rc` tag drift.
 - **Automerges dependency PRs only after their status checks pass.** Renovate performs the merge
@@ -40,10 +40,20 @@ without hand-syncing `package.json` across repos.
 
 ## Weekly groups and fleet-lock lanes
 
-Ordinary non-major updates are created only in the weekly Monday window. The default group catches
+Ordinary non-major updates are created only in staggered four-hour Monday windows, evaluated in
+`Europe/Tallinn`, so the fleet does not launch its dependency CI at once. The default group catches
 everything not assigned to a narrower failure domain. TypeScript/OXC tooling, GitHub Actions, and
 container images grouped by runtime get their own weekly PRs. Security updates bypass the schedule;
 breaking majors remain separate.
+
+| Monday window | Repositories |
+| --- | --- |
+| 00:00–03:59 | Unlisted/new consumers (safe fallback) |
+| 04:00–07:59 | `tova`, `rondo`, `rt100k`, `road-to-100k` |
+| 08:00–11:59 | `jalgpall`, `engine`, `pipeline-console`, `autofix` |
+| 12:00–15:59 | `momokaya`, `momokaya-template`, `momokaya-brand`, `language-learner` |
+| 16:00–19:59 | `momokaya-contract`, `momokaya-agent-auth`, `oxlint-config`, `rumori` |
+| 20:00–23:59 | `folio`, `infra` |
 
 Renovate is also the L1 fleet-lock **courier** for dependency families that must move together. It
 proposes one grouped, pinned PR per tech lane so every consuming repo moves the same dependency
