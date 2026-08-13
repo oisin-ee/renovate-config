@@ -23,11 +23,10 @@ without hand-syncing `package.json` across repos.
 
 - **Limits ordinary Renovate work per repository** to four concurrent PRs/branches and at most two
   Renovate branch pushes per hour. Security alerts deliberately bypass these limits.
-- **Batches ordinary pin, digest, patch, and minor updates weekly** in staggered four-hour
-  windows across the full week, evaluated in `Europe/Tallinn`. General updates share one PR;
-  TypeScript/OXC tooling, GitHub Actions, and Node/Python/Go/base container images use narrower
-  groups so unrelated failure domains do not block each other. Major updates and vulnerability fixes
-  stay separate.
+- **Schedules ordinary updates in repository-specific weekly windows** across the full week,
+  evaluated in `Europe/Tallinn`. Pin, digest, patch, minor, and major updates are staggered;
+  non-major updates are grouped by their failure domain. Security updates bypass the schedule and
+  remain separate.
 - **Pins exact versions** (`rangeStrategy: pin`) for the standardized toolchain and first-party
   package set — no floating `^` or `rc` tag drift.
 - **Automerges dependency PRs only after their status checks pass.** Renovate performs the merge
@@ -41,11 +40,11 @@ without hand-syncing `package.json` across repos.
 
 ## Weekly groups and fleet-lock lanes
 
-Ordinary non-major updates are created only in staggered four-hour windows spread across the week,
-evaluated in `Europe/Tallinn`, so the fleet does not launch its dependency CI at once. The default
-group catches everything not assigned to a narrower failure domain. TypeScript/OXC tooling, GitHub
-Actions, and container images grouped by runtime get their own weekly PRs. Security updates bypass
-the schedule; breaking majors remain separate.
+Ordinary updates are created only in repository-specific four-hour windows spread across the week,
+evaluated in `Europe/Tallinn`, so the fleet does not launch its dependency CI at once. Non-major
+updates use a default group unless a technology-specific rule narrows the failure domain.
+Breaking majors use the same repository window but remain individual PRs. Security updates bypass
+the schedule.
 
 | Weekly window | Repository |
 | --- | --- |

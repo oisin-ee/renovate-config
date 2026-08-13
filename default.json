@@ -8,6 +8,7 @@
   "prConcurrentLimit": 4,
   "branchConcurrentLimit": 4,
   "commitHourlyLimit": 2,
+  "schedule": ["* 0-3 * * 1"],
   "timezone": "Europe/Tallinn",
   "hostRules": [
     {
@@ -22,7 +23,7 @@
   },
   "packageRules": [
     {
-      "description": "Batch every ordinary non-major dependency update into one weekly PR by default. More specific technology-lane rules below override the group name while inheriting the same weekly schedule. Security alerts bypass schedules and limits; majors do not match this rule and remain separate",
+      "description": "Batch ordinary non-major dependency updates into one weekly PR by default. More specific technology-lane rules below override the group name while inheriting the repository's weekly schedule. Security alerts bypass schedules and limits; majors remain separate but use the same repository slot",
       "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "groupName": "weekly non-major dependencies",
       "groupSingleUpdates": true,
@@ -32,109 +33,91 @@
     {
       "description": "Monday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/tova"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 1"]
     },
     {
       "description": "Monday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/rondo"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 1"]
     },
     {
       "description": "Tuesday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/rt100k"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 2"]
     },
     {
       "description": "Tuesday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/road-to-100k"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 2"]
     },
     {
       "description": "Tuesday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/jalgpall"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 2"]
     },
     {
       "description": "Wednesday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/engine"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 3"]
     },
     {
       "description": "Wednesday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/pipeline-console"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 3"]
     },
     {
       "description": "Wednesday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/autofix"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 3"]
     },
     {
       "description": "Thursday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 4"]
     },
     {
       "description": "Thursday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya-template"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 4"]
     },
     {
       "description": "Thursday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya-brand"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 4"]
     },
     {
       "description": "Friday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/language-learner"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 5"]
     },
     {
       "description": "Friday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya-contract"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 5"]
     },
     {
       "description": "Friday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya-agent-auth"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 5"]
     },
     {
       "description": "Saturday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/oxlint-config"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 6"]
     },
     {
       "description": "Saturday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/rumori"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 8-11 * * 6"]
     },
     {
       "description": "Saturday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/folio"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 16-19 * * 6"]
     },
     {
       "description": "Sunday 00:00-03:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/infra"],
-      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "schedule": ["* 0-3 * * 0"]
     },
     {
