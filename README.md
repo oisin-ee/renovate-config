@@ -23,10 +23,11 @@ without hand-syncing `package.json` across repos.
 
 - **Limits ordinary Renovate work per repository** to four concurrent PRs/branches and at most two
   Renovate branch pushes per hour. Security alerts deliberately bypass these limits.
-- **Batches ordinary pin, digest, patch, and minor updates weekly** in staggered four-hour Monday
-  windows evaluated in `Europe/Tallinn`. General updates share one PR; TypeScript/OXC tooling,
-  GitHub Actions, and Node/Python/Go/base container images use narrower groups so unrelated failure
-  domains do not block each other. Major updates and vulnerability fixes stay separate.
+- **Batches ordinary pin, digest, patch, and minor updates weekly** in staggered four-hour
+  windows across the full week, evaluated in `Europe/Tallinn`. General updates share one PR;
+  TypeScript/OXC tooling, GitHub Actions, and Node/Python/Go/base container images use narrower
+  groups so unrelated failure domains do not block each other. Major updates and vulnerability fixes
+  stay separate.
 - **Pins exact versions** (`rangeStrategy: pin`) for the standardized toolchain and first-party
   package set — no floating `^` or `rc` tag drift.
 - **Automerges dependency PRs only after their status checks pass.** Renovate performs the merge
@@ -40,20 +41,33 @@ without hand-syncing `package.json` across repos.
 
 ## Weekly groups and fleet-lock lanes
 
-Ordinary non-major updates are created only in staggered four-hour Monday windows, evaluated in
-`Europe/Tallinn`, so the fleet does not launch its dependency CI at once. The default group catches
-everything not assigned to a narrower failure domain. TypeScript/OXC tooling, GitHub Actions, and
-container images grouped by runtime get their own weekly PRs. Security updates bypass the schedule;
-breaking majors remain separate.
+Ordinary non-major updates are created only in staggered four-hour windows spread across the week,
+evaluated in `Europe/Tallinn`, so the fleet does not launch its dependency CI at once. The default
+group catches everything not assigned to a narrower failure domain. TypeScript/OXC tooling, GitHub
+Actions, and container images grouped by runtime get their own weekly PRs. Security updates bypass
+the schedule; breaking majors remain separate.
 
-| Monday window | Repositories |
+| Weekly window | Repository |
 | --- | --- |
-| 00:00–03:59 | Unlisted/new consumers (safe fallback) |
-| 04:00–07:59 | `tova`, `rondo`, `rt100k`, `road-to-100k` |
-| 08:00–11:59 | `jalgpall`, `engine`, `pipeline-console`, `autofix` |
-| 12:00–15:59 | `momokaya`, `momokaya-template`, `momokaya-brand`, `language-learner` |
-| 16:00–19:59 | `momokaya-contract`, `momokaya-agent-auth`, `oxlint-config`, `rumori` |
-| 20:00–23:59 | `folio`, `infra` |
+| Monday 00:00–03:59 | Unlisted/new consumers (safe fallback) |
+| Monday 08:00–11:59 | `tova` |
+| Monday 16:00–19:59 | `rondo` |
+| Tuesday 00:00–03:59 | `rt100k` |
+| Tuesday 08:00–11:59 | `road-to-100k` |
+| Tuesday 16:00–19:59 | `jalgpall` |
+| Wednesday 00:00–03:59 | `engine` |
+| Wednesday 08:00–11:59 | `pipeline-console` |
+| Wednesday 16:00–19:59 | `autofix` |
+| Thursday 00:00–03:59 | `momokaya` |
+| Thursday 08:00–11:59 | `momokaya-template` |
+| Thursday 16:00–19:59 | `momokaya-brand` |
+| Friday 00:00–03:59 | `language-learner` |
+| Friday 08:00–11:59 | `momokaya-contract` |
+| Friday 16:00–19:59 | `momokaya-agent-auth` |
+| Saturday 00:00–03:59 | `oxlint-config` |
+| Saturday 08:00–11:59 | `rumori` |
+| Saturday 16:00–19:59 | `folio` |
+| Sunday 00:00–03:59 | `infra` |
 
 Renovate is also the L1 fleet-lock **courier** for dependency families that must move together. It
 proposes one grouped, pinned PR per tech lane so every consuming repo moves the same dependency
