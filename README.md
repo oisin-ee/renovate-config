@@ -18,6 +18,7 @@ without hand-syncing `package.json` across repos.
 | `oxlint` | linter |
 | `oxfmt` | formatter |
 | `oxlint-tsgolint` | type-aware oxlint plugin |
+| `@effect/tsgo` | Effect fork of TypeScript-Go; supplies the type-aware `effecttsgo/*` oxlint rules |
 
 ## What the preset does
 

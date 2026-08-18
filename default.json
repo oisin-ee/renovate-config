@@ -121,7 +121,7 @@
       "schedule": ["* 0-3 * * 0"]
     },
     {
-      "description": "TypeScript and OXC-family tooling moves in one weekly non-major PR instead of independent compiler, linter, and formatter PRs",
+      "description": "TypeScript and OXC-family tooling moves in one weekly non-major PR instead of independent compiler, linter, and formatter PRs. @effect/tsgo belongs in this group because it binary-patches oxlint and oxlint-tsgolint and validates a pinned typescript/oxlint/oxlint-tsgolint matrix before doing so — if it drifts out of lockstep with the rest of the group, `effect-tsgo patch` fails and type-aware Effect linting stops running",
       "matchPackageNames": [
         "typescript",
         "@typescript/native-preview",
@@ -129,7 +129,8 @@
         "@oisin-ee/oxlint-config",
         "oxlint",
         "oxfmt",
-        "oxlint-tsgolint"
+        "oxlint-tsgolint",
+        "@effect/tsgo"
       ],
       "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "groupName": "typescript and oxc tooling"
@@ -197,7 +198,8 @@
         "@oisin-ee/momokaya-agent-auth",
         "oxlint",
         "oxfmt",
-        "oxlint-tsgolint"
+        "oxlint-tsgolint",
+        "@effect/tsgo"
       ],
       "rangeStrategy": "pin"
     },
