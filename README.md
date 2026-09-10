@@ -13,8 +13,6 @@ without hand-syncing `package.json` across repos.
 | `typescript` | JS `tsc` (RC) — kept alongside tsgo during the preview |
 | `ultracite` | zero-config linter/formatter presets driving oxlint + oxfmt |
 | `@oisin-ee/oxlint-config` | shared strict type-aware oxlint preset layered on ultracite |
-| `@oisin-ee/momokaya-contract` | versioned Momokaya environment/runtime contract |
-| `@oisin-ee/momokaya-agent-auth` | Momokaya agent-auth credential broker integration |
 | `oxlint` | linter |
 | `oxfmt` | formatter |
 | `oxlint-tsgolint` | type-aware oxlint plugin |
@@ -50,23 +48,12 @@ the schedule.
 | Weekly window | Repository |
 | --- | --- |
 | Monday 00:00–03:59 | Unlisted/new consumers (safe fallback) |
-| Monday 08:00–11:59 | `tova` |
-| Monday 16:00–19:59 | `rondo` |
-| Tuesday 00:00–03:59 | `rt100k` |
-| Tuesday 08:00–11:59 | `road-to-100k` |
 | Tuesday 16:00–19:59 | `jalgpall` |
-| Wednesday 00:00–03:59 | `engine` |
-| Wednesday 08:00–11:59 | `pipeline-console` |
 | Wednesday 16:00–19:59 | `autofix` |
 | Thursday 00:00–03:59 | `momokaya` |
-| Thursday 08:00–11:59 | `momokaya-template` |
 | Thursday 16:00–19:59 | `momokaya-brand` |
-| Friday 00:00–03:59 | `language-learner` |
-| Friday 08:00–11:59 | `momokaya-contract` |
-| Friday 16:00–19:59 | `momokaya-agent-auth` |
 | Saturday 00:00–03:59 | `oxlint-config` |
 | Saturday 08:00–11:59 | `rumori` |
-| Saturday 16:00–19:59 | `folio` |
 | Sunday 00:00–03:59 | `infra` |
 
 Renovate is also the L1 fleet-lock **courier** for dependency families that must move together. It
@@ -93,8 +80,8 @@ groups, so without it Renovate would split a major bump into its own PR and defe
 ## Copier template updates
 
 The preset enables Renovate's built-in [`copier` manager](https://docs.renovatebot.com/modules/manager/copier/).
-Any consuming repo stamped from `momokaya-template` (i.e. it has a `.copier-answers.yml` with
-`_src_path: gh:oisin-ee/momokaya-template`) gets a `copier update` PR each time the template
+Any consuming repo stamped from a Copier template (i.e. it has a `.copier-answers.yml` with a
+`_src_path: gh:oisin-ee/<template>` entry) gets a `copier update` PR each time the template
 publishes a new PEP-440 git tag. Renovate reads `_commit` as the current version and bumps it to
 the template's latest tag via the `git-tags` datasource.
 
@@ -115,12 +102,11 @@ behavior, not a bug, and that automerge must not be used "unless you have tests 
 test/validate the PR contents." A human must review every Copier update PR for stray conflict
 markers before merging.
 
-**Status: PENDING-FIRST-STAMP.** As of this writing there are zero `momokaya-template`-stamped
-repos in the fleet, so this manager has not yet produced a live update PR in a real repo. The
-manager and datasource resolution were verified with a local Renovate `--platform=local`
-dry-run fixture: it detected a `.copier-answers.yml` pinned to `_commit: v1.0.0` and correctly
-resolved the live `momokaya-template` tags, proposing an update to `v1.1.0` — see the ENG-30
-ticket notes for the fixture and output.
+**Status: PENDING-FIRST-STAMP.** The fleet currently has zero Copier-stamped repositories, so this
+manager has not yet produced a live update PR in a real repo. The manager and datasource resolution
+were verified with a local Renovate `--platform=local` dry-run fixture against a sample template
+repository pinned to `_commit: v1.0.0`: Renovate correctly resolved the live template tags and
+proposed an update to `v1.1.0` — see the ENG-30 ticket notes for the fixture and output.
 
 ## Usage
 
