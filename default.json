@@ -31,39 +31,9 @@
       "updateNotScheduled": false
     },
     {
-      "description": "Monday 08:00-11:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/tova"],
-      "schedule": ["* 8-11 * * 1"]
-    },
-    {
-      "description": "Monday 16:00-19:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/rondo"],
-      "schedule": ["* 16-19 * * 1"]
-    },
-    {
-      "description": "Tuesday 00:00-03:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/rt100k"],
-      "schedule": ["* 0-3 * * 2"]
-    },
-    {
-      "description": "Tuesday 08:00-11:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/road-to-100k"],
-      "schedule": ["* 8-11 * * 2"]
-    },
-    {
       "description": "Tuesday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/jalgpall"],
       "schedule": ["* 16-19 * * 2"]
-    },
-    {
-      "description": "Wednesday 00:00-03:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/engine"],
-      "schedule": ["* 0-3 * * 3"]
-    },
-    {
-      "description": "Wednesday 08:00-11:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/pipeline-console"],
-      "schedule": ["* 8-11 * * 3"]
     },
     {
       "description": "Wednesday 16:00-19:59 Europe/Tallinn weekly slot",
@@ -76,29 +46,9 @@
       "schedule": ["* 0-3 * * 4"]
     },
     {
-      "description": "Thursday 08:00-11:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/momokaya-template"],
-      "schedule": ["* 8-11 * * 4"]
-    },
-    {
       "description": "Thursday 16:00-19:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/momokaya-brand"],
       "schedule": ["* 16-19 * * 4"]
-    },
-    {
-      "description": "Friday 00:00-03:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/language-learner"],
-      "schedule": ["* 0-3 * * 5"]
-    },
-    {
-      "description": "Friday 08:00-11:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/momokaya-contract"],
-      "schedule": ["* 8-11 * * 5"]
-    },
-    {
-      "description": "Friday 16:00-19:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/momokaya-agent-auth"],
-      "schedule": ["* 16-19 * * 5"]
     },
     {
       "description": "Saturday 00:00-03:59 Europe/Tallinn weekly slot",
@@ -109,11 +59,6 @@
       "description": "Saturday 08:00-11:59 Europe/Tallinn weekly slot",
       "matchRepositories": ["oisin-ee/rumori"],
       "schedule": ["* 8-11 * * 6"]
-    },
-    {
-      "description": "Saturday 16:00-19:59 Europe/Tallinn weekly slot",
-      "matchRepositories": ["oisin-ee/folio"],
-      "schedule": ["* 16-19 * * 6"]
     },
     {
       "description": "Sunday 00:00-03:59 Europe/Tallinn weekly slot",
@@ -170,14 +115,14 @@
         "busybox",
         "debian",
         "ubuntu",
-        "/^gcr\\.io\/distroless\//",
-        "/^cgr\\.dev\/chainguard\//"
+        "/^gcr\\.io\\/distroless\\//",
+        "/^cgr\\.dev\\/chainguard\\//"
       ],
       "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch", "minor"],
       "groupName": "base container images"
     },
     {
-      "description": "Copier template updates (e.g. momokaya-template) must never automerge — a Copier update can leave unresolved <<<<<<< conflict markers in files (see README), and only a human reviewing the PR diff catches that",
+      "description": "Copier template updates must never automerge — a Copier update can leave unresolved <<<<<<< conflict markers in files (see README), and only a human reviewing the PR diff catches that",
       "matchManagers": ["copier"],
       "automerge": false
     },
@@ -188,14 +133,12 @@
       "overridePackageName": "{{replace '^gh:' 'https://github.com/' packageName}}"
     },
     {
-      "description": "Pin exact versions for the shared TS7, OXC, and first-party package set. Non-major TypeScript/OXC tooling updates are grouped weekly above; first-party runtime and contract packages use the general weekly non-major group",
+      "description": "Pin exact versions for the shared TS7, OXC, and first-party package set. Non-major TypeScript/OXC tooling updates are grouped weekly above; first-party runtime packages use the general weekly non-major group",
       "matchPackageNames": [
         "typescript",
         "@typescript/native-preview",
         "ultracite",
         "@oisin-ee/oxlint-config",
-        "@oisin-ee/momokaya-contract",
-        "@oisin-ee/momokaya-agent-auth",
         "oxlint",
         "oxfmt",
         "oxlint-tsgolint",
@@ -207,9 +150,7 @@
       "description": "Resolve private oisin-ee packages from GitHub tags instead of the npm registry",
       "matchDatasources": ["npm"],
       "matchPackageNames": [
-        "@oisin-ee/oxlint-config",
-        "@oisin-ee/momokaya-contract",
-        "@oisin-ee/momokaya-agent-auth"
+        "@oisin-ee/oxlint-config"
       ],
       "overrideDatasource": "github-tags",
       "overridePackageName": "{{replace '@' '' packageName}}",
